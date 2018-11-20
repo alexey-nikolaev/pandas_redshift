@@ -159,7 +159,7 @@ def s3_to_redshift(redshift_table_name, aws_key, aws_secret, delimiter=',', quot
                    dateformat='auto', timeformat='auto', region='', parameters=''):
     
     aws_1 = aws_key
-	aws_2 = aws_secret
+    aws_2 = aws_secret
 
     bucket_name = 's3://{0}/{1}.csv'.format(
                         s3_bucket_var, s3_subdirectory_var + redshift_table_name)
@@ -209,6 +209,8 @@ def s3_to_redshift(redshift_table_name, aws_key, aws_secret, delimiter=',', quot
 def pandas_to_redshift(data_frame,
                        redshift_table_name,
                        column_data_types=None,
+		       aws_key=None,
+		       aws_secret=None,
                        index=False,
                        save_local=False,
                        delimiter=',',
@@ -237,7 +239,9 @@ def pandas_to_redshift(data_frame,
                               column_data_types, index, append,
                               diststyle, distkey, sort_interleaved, sortkey)
     # CREATE THE COPY STATEMENT TO SEND FROM S3 TO THE TABLE IN REDSHIFT
-    s3_to_redshift(redshift_table_name, delimiter, quotechar, dateformat, timeformat, region, parameters)
+    s3_to_redshift(
+	    redshift_table_name, aws_key, aws_secret, delimiter, quotechar, dateformat, timeformat, region, parameters
+    )
 
 
 
