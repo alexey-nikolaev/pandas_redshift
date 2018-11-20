@@ -28,7 +28,7 @@ def connect_to_redshift(dbname, host, user, port = 5439, **kwargs):
 
 
 def connect_to_s3(bucket, subdirectory=None, aws_iam_role=None, **kwargs):
-    global s3, aws_1, aws_2, s3_bucket_var, s3_subdirectory_var, aws_token, aws_role
+    global s3, s3_bucket_var, s3_subdirectory_var, aws_token, aws_role
     s3 = boto3.resource('s3',
                         #aws_access_key_id = aws_access_key_id,
                         #aws_secret_access_key = aws_secret_access_key,
@@ -38,8 +38,8 @@ def connect_to_s3(bucket, subdirectory=None, aws_iam_role=None, **kwargs):
         s3_subdirectory_var = ''
     else:
         s3_subdirectory_var = subdirectory + '/'
-    aws_1 = None
-    aws_2 = None
+    #aws_1 = None
+    #aws_2 = None
     aws_role = aws_iam_role
     if kwargs.get('aws_session_token'):
         aws_token = kwargs.get('aws_session_token')
@@ -155,8 +155,11 @@ def create_redshift_table(data_frame,
     connect.commit()
 
 
-def s3_to_redshift(redshift_table_name, delimiter=',', quotechar='"',
+def s3_to_redshift(redshift_table_name, aws_key, aws_secret, delimiter=',', quotechar='"',
                    dateformat='auto', timeformat='auto', region='', parameters=''):
+    
+    aws_1 = aws_key
+	aws_2 = aws_secret
 
     bucket_name = 's3://{0}/{1}.csv'.format(
                         s3_bucket_var, s3_subdirectory_var + redshift_table_name)
