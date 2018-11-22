@@ -161,12 +161,7 @@ def s3_to_redshift(redshift_table_name, delimiter=',', quotechar='"',
     bucket_name = 's3://{0}/{1}.csv'.format(
                         s3_bucket_var, s3_subdirectory_var + redshift_table_name)
 
-    if aws_1 and aws_2:
-        authorization = """
-        access_key_id '{0}'
-        secret_access_key '{1}'
-        """.format(aws_1, aws_2)
-    elif aws_role:
+    if aws_role:
         authorization = """
         iam_role '{0}'
         """.format(aws_role)
